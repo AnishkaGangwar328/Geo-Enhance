@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#061321">
+    <meta name="description" content="GeoEnhance: AI-powered satellite image super-resolution using a lightweight SwinIR model.">
+    <title>GeoEnhance | Earth Observation Intelligence</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Three.js rotating Earth background -->
+    <div id="earth-background" aria-hidden="true"></div>
+    <div class="space-overlay" aria-hidden="true"></div>
+    <div class="space-grid" aria-hidden="true"></div>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">◈</span>
+            <span>GEO<span class="accent">ENHANCE</span></span>
+        </a>
+
+        <div class="nav-right">
+            <span class="nav-label">EARTH OBSERVATION SYSTEM</span>
+            <span class="nav-divider"></span>
+            <span class="status-dot"></span>
+            <span>SYSTEM READY</span>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="eyebrow">
+                <span class="eyebrow-line"></span>
+                GEOSPATIAL INTELLIGENCE PLATFORM
+            </div>
+
+            <div class="hero-content">
+                <span class="mission-id">
+                    MISSION GEO-04 / AI SUPER-RESOLUTION
+                </span>
+
+                <h1>
+                    See Beyond<br>
+                    <span class="gradient-text">Resolution.</span>
+                </h1>
+
+                <p class="subtitle">
+                    Unlock a finer view of Earth with AI-powered satellite
+                    imagery enhancement. GeoEnhance uses a trained
+                    lightweight SwinIR transformer to generate
+                    4× super-resolved multispectral imagery.
+                </p>
+
+                <div class="hero-tags">
+                    <span><i class="tag-dot"></i> SWINIR TRANSFORMER</span>
+                    <span><i class="tag-dot"></i> 4× UPSCALING</span>
+                    <span><i class="tag-dot"></i> RGB + NIR</span>
+                </div>
+
+                <a href="#workspace" class="explore-btn">
+                    Launch Enhancement Studio
+                    <span>↗</span>
+                </a>
+            </div>
+
+            <div class="hero-telemetry">
+                <div class="telemetry-heading">
+                    <span class="pulse-dot"></span>
+                    OBSERVATION TELEMETRY
+                </div>
+
+                <div class="telemetry-row">
+                    <span>PROCESSING ENGINE</span>
+                    <strong>SWINIR / ACTIVE</strong>
+                </div>
+                <div class="telemetry-row">
+                    <span>SPECTRAL CHANNELS</span>
+                    <strong>04 BANDS</strong>
+                </div>
+                <div class="telemetry-row">
+                    <span>UPSCALE FACTOR</span>
+                    <strong>4.0×</strong>
+                </div>
+                <div class="telemetry-row">
+                    <span>MODEL PARAMETERS</span>
+                    <strong>432,676</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick statistics -->
+        <section class="stats-strip" aria-label="Model specifications">
+            <div class="stat">
+                <span class="stat-label">INPUT DIMENSIONS</span>
+                <strong>130 × 130</strong>
+                <small>Pixels</small>
+            </div>
+
+            <div class="stat">
+                <span class="stat-label">OUTPUT DIMENSIONS</span>
+                <strong>520 × 520</strong>
+                <small>Pixels</small>
+            </div>
+
+            <div class="stat">
+                <span class="stat-label">UPSCALE FACTOR</span>
+                <strong>4×</strong>
+                <small>Each spatial axis</small>
+            </div>
+
+            <div class="stat">
+                <span class="stat-label">PROCESSING</span>
+                <strong>RGB + NIR</strong>
+                <small>Multispectral imagery</small>
+            </div>
+        </section>
+
+        <!-- Upload workspace -->
+        <section class="workspace" id="workspace">
+
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">01 / IMAGE ACQUISITION</span>
+                    <h2>Satellite Enhancement Studio</h2>
+                    <p>
+                        Submit compatible Sentinel-2 imagery for
+                        AI-powered spatial upscaling.
+                    </p>
+                </div>
+
+                <span class="model-pill">
+                    <span class="status-dot"></span>
+                    MODEL ONLINE
+                </span>
+            </div>
+
+            <div class="workspace-shell">
+
+                <div class="workspace-toolbar">
+                    <div class="toolbar-title">
+                        <span class="toolbar-icon">▦</span>
+                        SATELLITE DATA INPUT
+                    </div>
+                    <span>SUPPORTED FORMAT: GEOTIFF</span>
+                </div>
+
+                <div class="upload-card" id="dropZone">
+                    <div class="upload-icon">
+                        <span>↑</span>
+                    </div>
+
+                    <div class="upload-kicker">UPLOAD SATELLITE DATA</div>
+
+                    <h3>Initialize Image Acquisition</h3>
+
+                    <p>
+                        Drag and drop your Sentinel-2 GeoTIFF or
+                        select an image from your local system.
+                    </p>
+
+                    <input
+                        type="file"
+                        id="fileInput"
+                        accept=".tif,.tiff"
+                        hidden
+                    >
+
+                    <button type="button"
+                            class="browse-btn"
+                            id="browseBtn">
+                        <span>▣</span>
+                        Browse Satellite Image
+                    </button>
+
+                    <span class="upload-hint">
+                        4 spectral bands · 130 × 130 pixels · TIFF · Maximum 25 MB
+                    </span>
+
+                    <div class="selected-file" id="selectedFile" hidden>
+                        <span class="file-symbol">▣</span>
+                        <span id="fileName"></span>
+                        <span class="file-ready">READY FOR PROCESSING</span>
+                    </div>
+                </div>
+
+                <div class="workspace-bottom">
+                    <div class="processing-details">
+                        <span class="status-dot"></span>
+                        AI INFERENCE ENGINE STANDBY
+                    </div>
+
+                    <button type="button"
+                            class="enhance-btn"
+                            id="enhanceBtn"
+                            disabled>
+                        <span>✦</span>
+                        Generate Super-Resolution
+                        <span>→</span>
+                    </button>
+                </div>
+
+                <div class="processing-state" id="processingState" hidden>
+                    <div class="spinner"></div>
+                    <div>
+                        <strong>Enhancing satellite imagery...</strong>
+                        <p>
+                            Executing trained SwinIR inference.
+                            Please wait.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="error-message"
+                     id="errorMessage"
+                     role="alert"
+                     hidden></div>
+            </div>
+        </section>
+
+        <!-- Results -->
+        <section class="results-section" id="resultsSection" hidden>
+
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">02 / IMAGE ANALYSIS</span>
+                    <h2>Super-Resolution Analysis</h2>
+                    <p>
+                        Compare the original observation with the
+                        generated 4× SwinIR output.
+                    </p>
+                </div>
+
+                <span class="success-pill">
+                    ✓ INFERENCE COMPLETE
+                </span>
+            </div>
+
+            <div class="comparison-grid">
+
+                <article class="image-card">
+                    <div class="image-card-header">
+                        <div>
+                            <span class="image-label">INPUT / LR</span>
+                            <h3>Original Satellite Image</h3>
+                        </div>
+                        <span class="resolution-badge">130 × 130</span>
+                    </div>
+
+                    <div class="image-frame">
+                        <img id="lrImage"
+                             alt="Original low-resolution satellite imagery">
+                        <span class="frame-corner top-left"></span>
+                        <span class="frame-corner top-right"></span>
+                        <span class="frame-corner bottom-left"></span>
+                        <span class="frame-corner bottom-right"></span>
+                    </div>
+
+                    <p class="image-caption">
+                        Original 4-band satellite observation,
+                        visualized using RGB channels.
+                    </p>
+                </article>
+
+                <article class="image-card enhanced-card">
+                    <div class="image-card-header">
+                        <div>
+                            <span class="image-label enhanced-label">
+                                OUTPUT / AI-SR
+                            </span>
+                            <h3>GeoEnhance Super-Resolution</h3>
+                        </div>
+                        <span class="resolution-badge enhanced-badge">
+                            520 × 520
+                        </span>
+                    </div>
+
+                    <div class="image-frame">
+                        <img id="srImage"
+                             alt="SwinIR-generated 4x super-resolution satellite imagery">
+                        <span class="frame-corner top-left"></span>
+                        <span class="frame-corner top-right"></span>
+                        <span class="frame-corner bottom-left"></span>
+                        <span class="frame-corner bottom-right"></span>
+                    </div>
+
+                    <p class="image-caption">
+                        Model-generated 4× upscaled image,
+                        visualized using RGB channels.
+                    </p>
+                </article>
+
+            </div>
+
+            <div class="result-footer">
+                <div class="result-info">
+                    <span class="status-dot"></span>
+                    <span id="resultFilename">
+                        Super-resolution complete
+                    </span>
+                </div>
+
+                <a id="downloadBtn"
+                   class="download-btn"
+                   href="#"
+                   download>
+                    ↓ Download SR GeoTIFF
+                </a>
+            </div>
+
+            <p class="scientific-note">
+                Scientific note: 4× refers to output grid upscaling.
+                It does not independently establish a fourfold
+                improvement in true ground-resolved detail.
+            </p>
+        </section>
+
+        <!-- Technology -->
+        <section class="technology-section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">03 / SYSTEM ARCHITECTURE</span>
+                    <h2>Intelligence Behind the Imagery</h2>
+                    <p>
+                        Multispectral processing through a lightweight
+                        transformer-based super-resolution pipeline.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <span class="tech-number">01 / ARCHITECTURE</span>
+                    <span class="tech-icon">◈</span>
+                    <strong>Lightweight SwinIR</strong>
+                    <p>
+                        Transformer-based neural network with
+                        window-based self-attention.
+                    </p>
+                </div>
+
+                <div class="tech-card">
+                    <span class="tech-number">02 / RESOLUTION</span>
+                    <span class="tech-icon">4×</span>
+                    <strong>Spatial Upscaling</strong>
+                    <p>
+                        Generates a 520 × 520 output grid from
+                        130 × 130 multispectral inputs.
+                    </p>
+                </div>
+
+                <div class="tech-card">
+                    <span class="tech-number">03 / SPECTRAL DATA</span>
+                    <span class="tech-icon">▦</span>
+                    <strong>Four-Band Processing</strong>
+                    <p>
+                        Preserves four output channels for
+                        red, green, blue and near-infrared data.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <span>© 2026 GEOENHANCE · EARTH OBSERVATION INTELLIGENCE</span>
+        <span>AI-POWERED SATELLITE SUPER-RESOLUTION</span>
+    </footer>
+
+    <!-- Frontend inference logic -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- Rotating 3D Earth -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="{{ url_for('static', filename='js/earth.js') }}"></script>
+
+</body>
+</html>

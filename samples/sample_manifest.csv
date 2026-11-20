@@ -1,0 +1,10 @@
+filename,sample_idx,split,width,height,bands
+train_sample_3332_LR.tif,3332,train,130,130,4
+train_sample_5572_LR.tif,5572,train,130,130,4
+train_sample_2536_LR.tif,2536,train,130,130,4
+val_sample_6902_LR.tif,6902,val,130,130,4
+val_sample_6630_LR.tif,6630,val,130,130,4
+val_sample_550_LR.tif,550,val,130,130,4
+test_sample_5666_LR.tif,5666,test,130,130,4
+test_sample_4198_LR.tif,4198,test,130,130,4
+test_sample_2658_LR.tif,2658,test,130,130,4
